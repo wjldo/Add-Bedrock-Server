@@ -82,6 +82,6 @@ if (
     let porta = params.get("port");
 
     window.location.href =
-        "minecraft:?addExternalServer=" +
+        "minecraft://?addExternalServer=" +
         nome + "|" + ip + ":" + porta;
 }
