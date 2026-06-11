@@ -1,11 +1,13 @@
 function gerarLink() {
 
-    let nome = document.getElementById("name").value;
-    let ip = document.getElementById("ip").value;
-    let porta = document.getElementById("port").value;
+    let nome = document.getElementById("name").value.trim();
+    let ip = document.getElementById("ip").value.trim();
+    let porta = document.getElementById("port").value.trim();
 
     if (!nome || !ip || !porta) {
+
         alert("Preencha todos os campos.");
+
         return;
     }
 
@@ -16,27 +18,28 @@ function gerarLink() {
         "&ip=" + encodeURIComponent(ip) +
         "&port=" + encodeURIComponent(porta);
 
-document.getElementById("resultado").innerHTML = `
-    <h3>Link Compartilhável</h3>
+    document.getElementById("resultado").innerHTML = `
+        <h3>🔗 Link Compartilhável</h3>
 
-    <textarea
-        id="linkGerado"
-        readonly>${linkCompartilhar}</textarea>
+        <textarea
+            id="linkGerado"
+            readonly>${linkCompartilhar}</textarea>
 
-    <div class="acoes">
+        <div class="acoes">
 
-        <button onclick="copiarLink()">
-            📋 Copiar Link
-        </button>
+            <button onclick="copiarLink()">
+                📋 Copiar Link
+            </button>
 
-        <button onclick="abrirLink()">
-            🚀 Abrir Link
-        </button>
+            <button onclick="abrirLink()">
+                🚀 Abrir Link
+            </button>
 
-    </div>
+        </div>
 
-    <p id="mensagemCopia"></p>
-`;
+        <p id="mensagemCopia"></p>
+    `;
+}
 
 function copiarLink() {
 
@@ -52,8 +55,18 @@ function copiarLink() {
         "✅ Link copiado com sucesso!";
 
     setTimeout(() => {
+
         mensagem.innerHTML = "";
+
     }, 3000);
+}
+
+function abrirLink() {
+
+    const link =
+        document.getElementById("linkGerado").value;
+
+    window.open(link, "_blank");
 }
 
 const params = new URLSearchParams(window.location.search);
@@ -70,13 +83,5 @@ if (
 
     window.location.href =
         "minecraft:?addExternalServer=" +
-        
-function abrirLink() {
-
-    const link =
-        document.getElementById("linkGerado").value;
-
-    window.open(link, "_blank");
-}
         nome + "|" + ip + ":" + porta;
 }
