@@ -199,3 +199,18 @@ textarea{
     font-weight:bold;
 
 }
+.acoes{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-top:15px;
+
+}
+
+.acoes button{
+
+    flex:1;
+
+}
