@@ -15,13 +15,22 @@ function gerarLink(){
         "minecraft:?addExternalServer=" +
         nome + "|" + ip + ":" + porta;
 
-    document.getElementById("resultado").innerHTML = `
-        <h3>Link Compartilhável</h3>
-        <textarea style="width:100%;height:70px;">${linkCompartilhar}</textarea>
+document.getElementById("resultado").innerHTML = `
+    <h3>Link Compartilhável</h3>
 
-        <h3>Link Minecraft</h3>
-        <textarea style="width:100%;height:70px;">${linkMinecraft}</textarea>
-    `;
+    <textarea
+        id="linkGerado"
+        style="width:100%;height:70px;"
+        readonly>${linkCompartilhar}</textarea>
+
+    <br><br>
+
+    <button onclick="copiarLink()">
+        📋 Copiar Link
+    </button>
+
+    <p id="mensagemCopia"></p>
+`;
 }
 
 const params = new URLSearchParams(window.location.search);
@@ -39,4 +48,20 @@ if(
     window.location.href =
     "minecraft:?addExternalServer=" +
     nome + "|" + ip + ":" + porta;
+}
+function copiarLink() {
+
+    const texto =
+        document.getElementById("linkGerado").value;
+
+    navigator.clipboard.writeText(texto);
+
+    const msg =
+        document.getElementById("mensagemCopia");
+
+    msg.innerHTML = "✅ Link copiado com sucesso!";
+
+    setTimeout(() => {
+        msg.innerHTML = "";
+    }, 3000);
 }
