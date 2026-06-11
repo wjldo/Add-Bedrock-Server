@@ -1,4 +1,41 @@
+const NAMESPACE = "add-bedrock";
+const KEY = "links-gerados";
+
+async function carregarContador() {
+
+    try {
+
+        const resposta = await fetch(
+            `https://api.countapi.xyz/get/${NAMESPACE}/${KEY}`
+        );
+
+        const dados = await resposta.json();
+
+        document.getElementById("contador").innerHTML =
+            `🌎 Comunidade já gerou <b>${dados.value || 0}</b> links`;
+
+    } catch {
+
+        document.getElementById("contador").innerHTML =
+            "🌎 Estatísticas indisponíveis";
+    }
+}
+
+carregarContador();
+
 function gerarLink() {
+
+    fetch(
+        `https://api.countapi.xyz/hit/${NAMESPACE}/${KEY}`
+    )
+    .then(response => response.json())
+    .then(data => {
+
+        document.getElementById("contador").innerHTML =
+            `🌎 Comunidade já gerou <b>${data.value}</b> links`;
+
+    })
+    .catch(() => {});
 
     let nome = document.getElementById("name").value.trim();
     let ip = document.getElementById("ip").value.trim();
@@ -81,7 +118,11 @@ if (
     let ip = params.get("ip");
     let porta = params.get("port");
 
-    window.location.href =
-        "minecraft://?addExternalServer=" +
-        nome + "|" + ip + ":" + porta;
+    setTimeout(() => {
+
+        window.location.href =
+            "minecraft://?addExternalServer=" +
+            nome + "|" + ip + ":" + porta;
+
+    }, 1000);
 }
