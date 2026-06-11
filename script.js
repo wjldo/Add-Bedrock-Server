@@ -1,28 +1,17 @@
-const CONTADOR_KEY = "add-bedrock-links";
-
 async function carregarContador() {
 
     try {
 
-        const resposta = await fetch(
-            `https://countapi.maayanlab.cloud/rpc/get?key=${CONTADOR_KEY}`
-        );
-
-        const dados = await resposta.json();
-
         document.getElementById("contador").innerHTML =
-            `🌎 Comunidade já gerou <b>${dados || 0}</b> links`;
+            "🌎 Ferramenta gratuita para a comunidade Minecraft Bedrock ❤️";
 
     } catch (erro) {
 
         console.error(erro);
-
-        document.getElementById("contador").innerHTML =
-            "🌎 Estatísticas indisponíveis";
     }
 }
 
-carregarContador();
+document.addEventListener("DOMContentLoaded", carregarContador);
 
 function gerarLink() {
 
@@ -33,30 +22,8 @@ function gerarLink() {
     if (!nome || !ip || !porta) {
 
         alert("Preencha todos os campos.");
-
         return;
     }
-
-    fetch(
-        "https://countapi.maayanlab.cloud/rpc/hit",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                key: CONTADOR_KEY
-            })
-        }
-    )
-    .then(response => response.json())
-    .then(valor => {
-
-        document.getElementById("contador").innerHTML =
-            `🌎 Comunidade já gerou <b>${valor}</b> links`;
-
-    })
-    .catch(console.error);
 
     let linkCompartilhar =
         window.location.origin +
@@ -66,10 +33,11 @@ function gerarLink() {
         "&port=" + encodeURIComponent(porta);
 
     document.getElementById("resultado").innerHTML = `
-
         <h3>🔗 Link Compartilhável</h3>
 
-        <textarea id="linkGerado" readonly>${linkCompartilhar}</textarea>
+        <textarea
+            id="linkGerado"
+            readonly>${linkCompartilhar}</textarea>
 
         <div class="acoes">
 
@@ -84,7 +52,6 @@ function gerarLink() {
         </div>
 
         <p id="mensagemCopia"></p>
-
     `;
 }
 
@@ -132,11 +99,7 @@ if (
 
         window.location.href =
             "minecraft://?addExternalServer=" +
-            nome +
-            "|" +
-            ip +
-            ":" +
-            porta;
+            nome + "|" + ip + ":" + porta;
 
     }, 1000);
 }
