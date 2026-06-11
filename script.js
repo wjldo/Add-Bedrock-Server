@@ -16,23 +16,27 @@ function gerarLink() {
         "&ip=" + encodeURIComponent(ip) +
         "&port=" + encodeURIComponent(porta);
 
-    document.getElementById("resultado").innerHTML = `
-        <h3>Link Compartilhável</h3>
+document.getElementById("resultado").innerHTML = `
+    <h3>Link Compartilhável</h3>
 
-        <textarea
-            id="linkGerado"
-            readonly
-            style="width:100%;height:80px;">${linkCompartilhar}</textarea>
+    <textarea
+        id="linkGerado"
+        readonly>${linkCompartilhar}</textarea>
 
-        <br><br>
+    <div class="acoes">
 
         <button onclick="copiarLink()">
             📋 Copiar Link
         </button>
 
-        <p id="mensagemCopia"></p>
-    `;
-}
+        <button onclick="abrirLink()">
+            🚀 Abrir Link
+        </button>
+
+    </div>
+
+    <p id="mensagemCopia"></p>
+`;
 
 function copiarLink() {
 
@@ -66,5 +70,13 @@ if (
 
     window.location.href =
         "minecraft:?addExternalServer=" +
+        
+function abrirLink() {
+
+    const link =
+        document.getElementById("linkGerado").value;
+
+    window.open(link, "_blank");
+}
         nome + "|" + ip + ":" + porta;
 }
