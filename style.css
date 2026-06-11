@@ -221,3 +221,41 @@ textarea{
     font-weight:bold;
 
 }
+
+.footer{
+
+    margin-top:30px;
+
+    text-align:center;
+
+}
+
+#contador{
+
+    display:inline-block;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.05);
+
+    color:#cfe9ff;
+
+    font-size:14px;
+
+    margin-bottom:10px;
+
+}
+
+.footer p{
+
+    margin:0;
+
+    color:#9fb0c8;
+
+    font-size:14px;
+
+}
