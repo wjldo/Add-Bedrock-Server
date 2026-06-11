@@ -1,20 +1,21 @@
-const NAMESPACE = "add-bedrock";
-const KEY = "links-gerados";
+const CONTADOR_KEY = "add-bedrock-links";
 
 async function carregarContador() {
 
     try {
 
         const resposta = await fetch(
-            `https://api.countapi.xyz/get/${NAMESPACE}/${KEY}`
+            `https://countapi.maayanlab.cloud/rpc/get?key=${CONTADOR_KEY}`
         );
 
         const dados = await resposta.json();
 
         document.getElementById("contador").innerHTML =
-            `🌎 Comunidade já gerou <b>${dados.value || 0}</b> links`;
+            `🌎 Comunidade já gerou <b>${dados || 0}</b> links`;
 
-    } catch {
+    } catch (erro) {
+
+        console.error(erro);
 
         document.getElementById("contador").innerHTML =
             "🌎 Estatísticas indisponíveis";
@@ -24,18 +25,6 @@ async function carregarContador() {
 carregarContador();
 
 function gerarLink() {
-
-    fetch(
-        `https://api.countapi.xyz/hit/${NAMESPACE}/${KEY}`
-    )
-    .then(response => response.json())
-    .then(data => {
-
-        document.getElementById("contador").innerHTML =
-            `🌎 Comunidade já gerou <b>${data.value}</b> links`;
-
-    })
-    .catch(() => {});
 
     let nome = document.getElementById("name").value.trim();
     let ip = document.getElementById("ip").value.trim();
@@ -48,6 +37,27 @@ function gerarLink() {
         return;
     }
 
+    fetch(
+        "https://countapi.maayanlab.cloud/rpc/hit",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                key: CONTADOR_KEY
+            })
+        }
+    )
+    .then(response => response.json())
+    .then(valor => {
+
+        document.getElementById("contador").innerHTML =
+            `🌎 Comunidade já gerou <b>${valor}</b> links`;
+
+    })
+    .catch(console.error);
+
     let linkCompartilhar =
         window.location.origin +
         window.location.pathname +
@@ -56,11 +66,10 @@ function gerarLink() {
         "&port=" + encodeURIComponent(porta);
 
     document.getElementById("resultado").innerHTML = `
+
         <h3>🔗 Link Compartilhável</h3>
 
-        <textarea
-            id="linkGerado"
-            readonly>${linkCompartilhar}</textarea>
+        <textarea id="linkGerado" readonly>${linkCompartilhar}</textarea>
 
         <div class="acoes">
 
@@ -75,6 +84,7 @@ function gerarLink() {
         </div>
 
         <p id="mensagemCopia"></p>
+
     `;
 }
 
@@ -122,7 +132,11 @@ if (
 
         window.location.href =
             "minecraft://?addExternalServer=" +
-            nome + "|" + ip + ":" + porta;
+            nome +
+            "|" +
+            ip +
+            ":" +
+            porta;
 
     }, 1000);
 }
